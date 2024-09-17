@@ -101,4 +101,4 @@ def jeu_morpion():
     plt.show()  # Afficher la dernière grille
 
 # Lancer le jeu
-jeu_morpion()
+jeu_morpion() 
