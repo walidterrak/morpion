@@ -7,9 +7,6 @@ def initialiser_grille():
 
 # Afficher la grille avec Matplotlib et les marques 'X' et 'O'
 def afficher_grille(grille):
-    plt.clf()  # Effacer la figure précédente
-    plt.figure(figsize=(5,5))
-
     # Dessiner la grille
     for i in range(1, 3):
         plt.plot([0, 3], [i, i], color="black")  # Lignes horizontales
@@ -24,18 +21,18 @@ def afficher_grille(grille):
                 plt.text(j + 0.5, 2.5 - i, 'O', fontsize=40, ha='center', va='center')
 
     # Configurations pour cacher les axes
-    plt.xlim(0,3)
-    plt.ylim(0,3)
+    plt.xlim(0, 3)
+    plt.ylim(0, 3)
     plt.gca().set_aspect('equal', adjustable='box')
     plt.axis('off')
 
-    # Afficher la grille
+    # Mettre à jour la figure
     plt.draw()
     plt.pause(0.1)
 
 # Vérifier si la case est valide (vide et dans les limites)
 def case_valide(grille, ligne, colonne):
-    return 0 <= ligne < 3 and 0 <= colonne < 3 and grille[ligne,colonne] == 0
+    return 0 <= ligne < 3 and 0 <= colonne < 3 and grille[ligne, colonne] == 0
 
 def recuperer_coordonnees(joueur):
     while True:
@@ -73,23 +70,25 @@ def jeu_morpion():
     joueur = 1  # Joueur 1 commence ('X')
 
     plt.ion()  # Activer le mode interactif de matplotlib
-
+    afficher_grille(grille)  # Afficher la grille une seule fois au début
+    
     while True:
-        afficher_grille(grille)
         ligne, colonne = recuperer_coordonnees(joueur)
 
         if case_valide(grille, ligne, colonne):
             placer_marque(grille, ligne, colonne, joueur)
 
+            # Effacer la grille et afficher la mise à jour
+            plt.cla()  # Nettoyer la figure sans fermer la fenêtre
+            afficher_grille(grille)  # Mettre à jour l'affichage
+
             # Vérifier si le joueur actuel a gagné
             if verifier_victoire(grille, joueur):
-                afficher_grille(grille)
                 print(f"Félicitations ! Le joueur {joueur} a gagné !")
                 break
 
             # Vérifier le match nul
             if verifier_match_nul(grille):
-                afficher_grille(grille)
                 print("Match nul !")
                 break
 
